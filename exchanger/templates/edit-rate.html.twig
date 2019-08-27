@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit {{ rate.currency }}
+{% endblock %}
+
+{% block nav %}
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="rates"
+                href="/rates/page/1"
+                aria-selected="true"
+            >Rates</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link  active"
+                href="#"
+                aria-selected="true"
+            >Edit {{ rate.currency }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <input type="hidden" id="full_rate" value="{{ rate.rate }}">
+    {% include("parts/rate-form.html.twig") %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            if ($('form[name="rate"] #rate_rate').val().length > 0) {
+                $('form[name="rate"] #rate_rate').val($('#full_rate').val());
+            }
+        });
+    </script>
+{% endblock %}

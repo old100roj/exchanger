@@ -1,0 +1,12 @@
+exchanger/.env.local
+exchanger/.env.local.php
+exchanger/.env.*.local
+exchanger/public/bundles/
+exchanger/var/
+!exchanger/var/.gitkeep
+exchanger/cache/
+!exchanger/cache/.gitkeep
+exchanger/vendor/
+exchanger/.idea/
+exchanger/bin/.phpunit
+exchanger/.web-server-pid

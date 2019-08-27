@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Rates list
+{% endblock %}
+
+{% block nav %}
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a
+                class="nav-link active"
+                id="rates-tab" data-toggle="tab"
+                href="#rates"
+                role="tab"
+                aria-controls="rates"
+                aria-selected="true"
+            >Rates</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="add-new-tab"
+                data-toggle="tab"
+                href="#add-new"
+                role="tab"
+                aria-controls="add-new"
+                aria-selected="false"
+            >Add new one</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="rates" role="tabpanel" aria-labelledby="rates-tab">
+            {% if rates.records|length > 0 %}
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Auto update</th>
+                        <th scope="col">Created at</th>
+                        <th scope="col">Updated at</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for rate in rates.records %}
+                        <tr>
+                            <td>{{ rate.id }}</td>
+                            <td>{{ rate.currency }}</td>
+                            <td>{{ rate.rate }}</td>
+                            <td>
+                                {% if rate.custom %}
+                                    <span style="color: darkred">Off</span>
+                                {% else %}
+                                    <span style="color: darkgreen">On</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ rate.created|date('Y-m-d H:i') }}</td>
+                            <td>{{ rate.updated|date('Y-m-d H:i') }}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a class="btn btn-primary" href="/rates/edit/{{ rate.id }}">Edit</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a
+                                            class="btn btn-success {% if rate.custom %} disabled {% endif %}"
+                                            href="/rates/refresh/{{ rate.id }}?page={{ rates.currentPage }}&recordsNumber={{ rates.records|length }}"
+                                        >Refresh</a>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <a
+                                            class="btn btn-danger"
+                                            href="/rates/delete/{{ rate.id }}?page={{ rates.currentPage }}&recordsNumber={{ rates.records|length }}"
+                                        >Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+                <nav aria-label="Pagination">
+                    <ul class="pagination pagination-lg justify-content-center">
+                        {% for item in pageItems %}
+                            {% if item.display %}
+                                <li class="page-item {% if item.disabled %} disabled {% endif %}">
+                                    <a class="page-link" href="{{ item.href }}">
+                                        {{ item.text }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            {% else %}
+                The rates list is currently empty.
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="add-new" role="tabpanel" aria-labelledby="add-new-tab">
+            {% include("parts/rate-form.html.twig") %}
+        </div>
+    </div>
+{% endblock %}

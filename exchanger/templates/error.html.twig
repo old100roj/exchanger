@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Oops!
+{% endblock %}
+
+{% block nav %}
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a
+                class="nav-link"
+                id="rates"
+                href="/rates/page/1"
+                aria-selected="true"
+            >Rates</a>
+        </li>
+        <li class="nav-item">
+            <a
+                class="nav-link  active"
+                href="#"
+                aria-selected="true"
+            >Error</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <div id="error" class="alert alert-danger">
+        Something went wrong.<br>
+        {{ message }}
+    </div>
+{% endblock %}
